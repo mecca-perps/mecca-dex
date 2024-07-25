@@ -43,6 +43,7 @@ export const connectWallet = createAsyncThunk(
     let account;
     if (typeof window.ethereum === "undefined") {
       toast.error("Please install wallet");
+      return;
     } else {
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
@@ -55,12 +56,11 @@ export const connectWallet = createAsyncThunk(
         });
         account = accounts[0];
       }
+      const response = await axios.post(`${SERVER_URL}/createOrGetUser`, {
+        walletAddress: account,
+      });
+      return response.data.data;
     }
-
-    const response = await axios.post(`${SERVER_URL}/createOrGetUser`, {
-      walletAddress: account,
-    });
-    return response.data.data;
   }
 );
 
@@ -97,6 +97,7 @@ export const historySlice = createSlice({
     });
     builder.addCase(connectWallet.fulfilled, (state, action) => {
       state.status = "succeeded";
+      if (action.payload === undefined) return;
       state.walletAddress = action.payload.walletAddress;
       state.userBalance = action.payload.balance;
     });
