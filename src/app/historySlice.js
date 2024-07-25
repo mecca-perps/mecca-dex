@@ -43,7 +43,7 @@ export const connectWallet = createAsyncThunk(
     let account;
     if (typeof window.ethereum === "undefined") {
       toast.error("Please install wallet");
-      return;
+      return; // when there is no wallet
     } else {
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
