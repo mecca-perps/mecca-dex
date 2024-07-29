@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
-import { shortenAddress } from "../utils/DataProvider";
+import {
+  organizeNumber,
+  shortenAddress,
+  getTrades,
+  convertUnixTime,
+} from "../utils/DataProvider";
+import { useDispatch, useSelector } from "react-redux";
 
 function Pool() {
   const chartRef = useRef();
   const chartContainerRef = useRef();
+  const poolBalance = useSelector((state) => state.history.balance);
+  const [trades, setTrades] = useState([]);
+
   useEffect(() => {
     const chartOptions = {
       layout: {
@@ -53,57 +62,61 @@ function Pool() {
       chartRef.current.remove();
     };
   }, []);
+
+  useEffect(() => {
+    const getHistory = async () => {
+      const res = await getTrades();
+      setTrades(res);
+    };
+
+    getHistory();
+  }, []);
   return (
     <div className="flex p-[20px] text-white/50 gap-3">
       <div className="flex-1 flex-col">
         <h1 className="mb-2 text-[25px]">Pool Profit Chart</h1>
         <div ref={chartContainerRef} className="w-[100%] h-[600px]" />
       </div>
-
       <div className="flex-1">
         <h1 className="mb-2 text-[25px]">Pool History</h1>
+        <div className="mb-2">
+          <div className="flex gap-2">
+            <h1 className="text-[#a7770c]">Initial amount</h1>
+            <h1>$ {organizeNumber(1000000000)}</h1>
+          </div>
+          <div className="flex gap-2">
+            <h1 className="text-[#a7770c]">Current amount</h1>
+            <h1 className="text-white">$ {organizeNumber(poolBalance)}</h1>
+          </div>
+        </div>
         <div className="flex flex-col text-[#84897a] text-[15px] w-[900px] overflow-hidden md:w-full lg:w-full border border-[#242424]">
           <div className="flex justify-between border-b border-[#242424] py-3">
             <span className="flex-1 text-center">Timestamp</span>
             <span className="flex-1 text-center">Trader</span>
             <span className="flex-1 text-center">Profit</span>
           </div>
-          <div className="flex justify-between border-b border-[#242424] py-3">
-            <span className="flex-1 text-center">2024-07-10 15:05:40</span>
-            <span className="flex-1 text-center">
-              {shortenAddress("0x09c553CEC41c745F4e2A8c12d76D85d1cFf6dD9e")}
-            </span>
-            <span className="flex-1 text-center">$1000</span>
-          </div>
-          <div className="flex justify-between border-b border-[#242424] py-3">
-            <span className="flex-1 text-center">2024-07-10 15:05:40</span>
-            <span className="flex-1 text-center">
-              {shortenAddress("0x09c553CEC41c745F4e2A8c12d76D85d1cFf6dD9e")}
-            </span>
-            <span className="flex-1 text-center">$1000</span>
-          </div>
-          <div className="flex justify-between border-b border-[#242424] py-3">
-            <span className="flex-1 text-center">2024-07-10 15:05:40</span>
-            <span className="flex-1 text-center">
-              {shortenAddress("0x09c553CEC41c745F4e2A8c12d76D85d1cFf6dD9e")}
-            </span>
-            <span className="flex-1 text-center">$1000</span>
-          </div>
-          <div className="flex justify-between border-b border-[#242424] py-3">
-            <span className="flex-1 text-center">2024-07-10 15:05:40</span>
-            <span className="flex-1 text-center">
-              {shortenAddress("0x09c553CEC41c745F4e2A8c12d76D85d1cFf6dD9e")}
-            </span>
-            <span className="flex-1 text-center">$1000</span>
-          </div>
-          <div className="flex justify-between border-b border-[#242424] py-3">
-            <span className="flex-1 text-center">2024-07-10 15:05:40</span>
-            <span className="flex-1 text-center">
-              {shortenAddress("0x09c553CEC41c745F4e2A8c12d76D85d1cFf6dD9e")}
-            </span>
-            <span className="flex-1 text-center">$1000</span>
-          </div>
-
+          {trades.length === 0 ? (
+            <div>There is no trade history</div>
+          ) : (
+            trades.map((trade, index) => {
+              return (
+                <div
+                  className="flex justify-between border-b border-[#242424] py-3"
+                  key={index}
+                >
+                  <span className="flex-1 text-center">
+                    {convertUnixTime(trade.endDate)}
+                  </span>
+                  <span className="flex-1 text-center">
+                    {shortenAddress(trade.userId)}
+                  </span>
+                  <span className="flex-1 text-center">
+                    {organizeNumber(trade.profit)}
+                  </span>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

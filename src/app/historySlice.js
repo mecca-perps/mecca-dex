@@ -59,7 +59,7 @@ export const connectWallet = createAsyncThunk(
       const response = await axios.post(`${SERVER_URL}/createOrGetUser`, {
         walletAddress: account,
       });
-      return response.data.data;
+      return response.data;
     }
   }
 );
@@ -98,8 +98,9 @@ export const historySlice = createSlice({
     builder.addCase(connectWallet.fulfilled, (state, action) => {
       state.status = "succeeded";
       if (action.payload === undefined) return;
-      state.walletAddress = action.payload.walletAddress;
-      state.userBalance = action.payload.balance;
+      state.walletAddress = action.payload.data.walletAddress;
+      state.userBalance = action.payload.data.balance;
+      state.balance = action.payload.poolBalance;
     });
   },
 });

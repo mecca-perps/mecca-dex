@@ -173,3 +173,8 @@ export const getTopTraders = async () => {
   const response = await axios.get(`${SERVER_URL}/getTopTraders`);
   return response.data.data.traders;
 };
+
+export const getTrades = async () => {
+  const response = await axios.get(`${SERVER_URL}/getTrades`);
+  return response.data.data.trades;
+};

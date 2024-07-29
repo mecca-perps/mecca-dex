@@ -63,10 +63,10 @@ function Layout() {
       >
         <h5 className="text-[16px]">Balance</h5>
         <h4 className="border-b border-[#242424] text-center pb-3 text-white">
-          $ {organizeNumber(userBalance)}
+          {organizeNumber(userBalance)} USDC
         </h4>
         <h3>Initial balance</h3>
-        <h4 className="text-center">$ {organizeNumber(1000000)}</h4>
+        <h4 className="text-center">{organizeNumber(1000000)} USDC</h4>
         <button
           className="rounded-xl text-white group bg-[#E69F00]/10 hover:bg-[#E69F00]/25 w-100 transition-all duration-200 mt-3"
           onClick={disconnect}
@@ -99,7 +99,7 @@ function Layout() {
               Leaderboard
             </button>
           </Link>
-          {/* <Link to="/pool" onClick={() => handleNav("pool")}>
+          <Link to="/pool" onClick={() => handleNav("pool")}>
             <button
               className={`h-[60px] px-[15px] hover:bg-[#192531] transition-all duration-200 ${
                 selectedNav === "pool" ? "bg-[#192531]" : ""
@@ -107,7 +107,7 @@ function Layout() {
             >
               Pool History
             </button>
-          </Link> */}
+          </Link>
           <Link to="/rule" onClick={() => handleNav("rule")}>
             <button
               className={`h-[60px] px-[15px] hover:bg-[#192531] transition-all duration-200 ${
