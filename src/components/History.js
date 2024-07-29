@@ -27,7 +27,6 @@ function History(props) {
           <span className="flex-1 text-center">Entry Position($)</span>
           <span className="flex-1 text-center">Current Price</span>
           <span className="flex-1 text-center">Current Position($)</span>
-          {/* <span className="flex-1 text-center">Entry Size</span> */}
           <span className="flex-1 text-center">Profit/Loss</span>
           <span className="flex-1 text-center">Liq.Price</span>
           <span className="flex-1 text-center">Timestamp</span>
@@ -102,9 +101,23 @@ function History(props) {
                       )}
                     </span>
                   )}
-                  <span className="flex-1 text-center">
-                    {organizeNumber(history.entryPrice * history.amount)}
-                  </span>
+                  {history.type === "long" ? (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage - 1)
+                      )}
+                    </span>
+                  ) : (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage + 1)
+                      )}
+                    </span>
+                  )}
                   <span className="flex-1 text-center">
                     {convertUnixTime(history.startDate)}
                   </span>
@@ -195,9 +208,23 @@ function History(props) {
                   <span className="flex-1 text-center">
                     {organizeNumber(history.entryPrice * history.amount)}
                   </span>
-                  <span className="flex-1 text-center">
-                    {organizeNumber(history.entryPrice * history.amount)}
-                  </span>
+                  {history.type === "long" ? (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage - 1)
+                      )}
+                    </span>
+                  ) : (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage + 1)
+                      )}
+                    </span>
+                  )}
                   <span className="flex-1 text-center">
                     {convertUnixTime(history.startDate)}
                   </span>
@@ -281,9 +308,23 @@ function History(props) {
                   <span className="flex-1 text-center">
                     {organizeNumber(history.entryPrice * history.amount)}
                   </span>
-                  <span className="flex-1 text-center">
-                    {organizeNumber(history.entryPrice * history.amount)}
-                  </span>
+                  {history.type === "long" ? (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage - 1)
+                      )}
+                    </span>
+                  ) : (
+                    <span className="flex-1 text-center">
+                      {organizeNumber(
+                        history.entryPrice *
+                          history.amount *
+                          (history.leverage + 1)
+                      )}
+                    </span>
+                  )}
                   <span className="flex-1 text-center">
                     {convertUnixTime(history.startDate)}
                   </span>

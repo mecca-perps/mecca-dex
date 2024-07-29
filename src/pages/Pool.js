@@ -110,9 +110,15 @@ function Pool() {
                   <span className="flex-1 text-center">
                     {shortenAddress(trade.userId)}
                   </span>
-                  <span className="flex-1 text-center">
-                    {organizeNumber(trade.profit)}
-                  </span>
+                  {trade.profit > 0 ? (
+                    <span className="flex-1 text-center long">
+                      {organizeNumber(trade.profit)}
+                    </span>
+                  ) : (
+                    <span className="flex-1 text-center short">
+                      {organizeNumber(trade.profit)}
+                    </span>
+                  )}
                 </div>
               );
             })

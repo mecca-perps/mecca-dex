@@ -3,17 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import IconButton from "@mui/material/IconButton";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import TuneIcon from "@mui/icons-material/Tune";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Slider from "@mui/material/Slider";
 import toast from "react-hot-toast";
-import { ethers } from "ethers";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 import eth from "../assets/images/eth.png";
+import usdc from "../assets/images/usdc.png";
 
 import History from "../components/History";
 import Chart from "../components/Chart";
@@ -21,7 +19,6 @@ import Chart from "../components/Chart";
 import {
   organizeNumber,
   fetchETHPrice,
-  getETHBalance,
 } from "../utils/DataProvider";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -234,12 +231,22 @@ function Perps() {
               <div className="bg-[#272626] rounded-xl h-14 pl-3 pr-2 py-2 lg:p-4 mt-2">
                 <div className="flex flex-col dark:text-white h-full justify-center">
                   <div className="flex justify-between">
-                    <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
-                      <img src={eth} alt="eth icon" className="w-[40px]" />
-                      <div className="font-semibold text-xs lg:text-base">
-                        ETH
+                    {tradeType === "long" ? (
+                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
+                        <img src={usdc} alt="eth icon" className="w-[40px] p-2" />
+                        <div className="font-semibold text-xs lg:text-base">
+                          USDC
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
+                        <img src={eth} alt="eth icon" className="w-[40px]" />
+                        <div className="font-semibold text-xs lg:text-base">
+                          ETH
+                        </div>
+                      </div>
+                    )}
+
                     <div className="text-right">
                       <input
                         placeholder="0.00"
@@ -261,12 +268,21 @@ function Perps() {
               <div className="bg-[#272626] rounded-xl h-14 pl-3 pr-2 py-2 lg:p-4 mt-2">
                 <div className="flex flex-col dark:text-white h-full justify-center">
                   <div className="flex items-center justify-between">
-                    <div className="p-1 pr-2 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
-                      <img src={eth} alt="eth icon" className="w-[40px]" />
-                      <div className="font-semibold text-xs lg:text-base">
-                        ETH
+                    {tradeType === "long" ? (
+                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
+                        <img src={usdc} alt="eth icon" className="w-[40px] p-2" />
+                        <div className="font-semibold text-xs lg:text-base">
+                          USDC
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
+                        <img src={eth} alt="eth icon" className="w-[40px]" />
+                        <div className="font-semibold text-xs lg:text-base">
+                          ETH
+                        </div>
+                      </div>
+                    )}
                     <div className="">
                       <input
                         inputMode="decimal"
