@@ -6,7 +6,8 @@ import {
   getTrades,
   convertUnixTime,
 } from "../utils/DataProvider";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Pagination from "@mui/material/Pagination";
 
 function Pool() {
   const chartRef = useRef();
@@ -96,7 +97,7 @@ function Pool() {
             <span className="flex-1 text-center">Profit</span>
           </div>
           {trades.length === 0 ? (
-            <div>There is no trade history</div>
+            <div className="p-3 text-center">There is no trade history</div>
           ) : (
             trades.map((trade, index) => {
               return (
@@ -124,6 +125,9 @@ function Pool() {
             })
           )}
         </div>
+        {/* <div>
+          <Pagination count={10} variant="outlined" shape="rounded" />
+        </div> */}
       </div>
     </div>
   );

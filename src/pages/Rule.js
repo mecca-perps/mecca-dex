@@ -7,47 +7,35 @@ function Rule() {
     <div className="flex justify-center text-white/50 mt-5">
       <div className="w-[800px] border border-[#242424] py-[40px] px-[40px] flex flex-col gap-3 tracking-wide">
         <div className="p-2">
-          <h3 className="text-[20px]">1. Initial Collateral</h3> - Each trader
-          is provided with $1,000,000 in collateral to begin trading.
+          <h3 className="text-[20px]">1. Starting Funds</h3> - Each trader gets
+          $1,000,000 to start trading.
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">2. Trading Pairs</h3> - Traders can engage
-          in long or short positions on ETH, utilizing real market prices for
-          reference.
+          <h3 className="text-[20px]">2. Trading Options</h3> - Traders can buy
+          or sell ETH, using real market prices.
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">3. Leverage</h3> - Traders can borrow from
-          the pool with zero interest, leveraging up to 5x their initial
-          collateral.
+          <h3 className="text-[20px]">3. Leverage</h3> - Traders can borrow up
+          to 5 times their initial funds with no interest.
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">4. Position Management</h3>
-          <h4>
-            - Manual Closure: Traders can close their positions manually at any
-            time.
-          </h4>
-          <h4>
-            - Automatic Closure: Positions will automatically close after 7
-            trading days.
-          </h4>
-          <h4>
-            - Margin Closure: Positions will close if they hit the margin limit.
-          </h4>
+          <h3 className="text-[20px]">4. Managing Positions</h3>
+          <h4>- Traders can close their positions any time.</h4>
+          <h4>- Positions close automatically after 7 days.</h4>
+          <h4>- Positions close if they reach the margin limit.</h4>
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">5. Profit and Loss</h3>- Paper Loss: Any
-          losses incurred will be considered as paper losses. - Paper Profit:
-          Any profits gained will be considered as paper profits.
+          <h3 className="text-[20px]">5. Profits and Losses</h3>
+          <h4>- Paper Loss: Losses will be considered as paper losses.</h4>
+          <h4>- Paper Profit: Profits will be considered as paper profits.</h4>
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">6. Prizes and Rewards</h3> - Top traders
-          will be awarded access to the Mainnet and additional prizes based on
-          their performance.
+          <h3 className="text-[20px]">6. Rewards</h3> - The best traders will
+          get access to the Mainnet and other prizes.
         </div>
         <div className="p-2">
-          <h3 className="text-[20px]">7. Compliance and Ethics</h3> - All
-          trading activities comply with Halal principles and ethical trading
-          standards.
+          <h3 className="text-[20px]">7. Ethical Trading</h3> - All trading
+          follows Halal principles and ethical standards.
         </div>
       </div>
     </div>
