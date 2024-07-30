@@ -56,7 +56,7 @@ function History(props) {
                     {history.leverage}x
                   </span>
                   <span className="flex-1 text-center">
-                    {history.amount * history.leverage}
+                    {organizeNumber(history.amount * history.leverage)}
                   </span>
                   <span className="flex-1 text-center">
                     {history.entryPrice}

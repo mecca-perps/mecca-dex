@@ -16,10 +16,7 @@ import usdc from "../assets/images/usdc.png";
 import History from "../components/History";
 import Chart from "../components/Chart";
 
-import {
-  organizeNumber,
-  fetchETHPrice,
-} from "../utils/DataProvider";
+import { organizeNumber, fetchETHPrice } from "../utils/DataProvider";
 
 import { useDispatch, useSelector } from "react-redux";
 import { postTrade, connectWallet } from "../app/historySlice";
@@ -94,13 +91,25 @@ function Perps() {
   };
 
   const continuePostTrade = async () => {
-    const param = {
-      amount,
-      entryPrice,
-      leverage,
-      tradeType,
-      walletAddress,
-    };
+    let param = {};
+    if (tradeType === "long") {
+      param = {
+        amount: amount / entryPrice,
+        entryPrice,
+        leverage,
+        tradeType,
+        walletAddress,
+      };
+    } else {
+      param = {
+        amount,
+        entryPrice,
+        leverage,
+        tradeType,
+        walletAddress,
+      };
+    }
+
     await dispatch(postTrade(param));
     setLoading(false);
     setTxConfirmModal(false);
@@ -158,7 +167,11 @@ function Perps() {
         }`}
         ref={txConfirmModalRef}
       >
-        <h4>Are you sure to send {amount} ETH ?</h4>
+        <h4>
+          Are you sure to send{" "}
+          {tradeType === "long" ? organizeNumber(amount / entryPrice) : amount}{" "}
+          ETH ?
+        </h4>
         <button
           className="rounded-xl text-white group bg-[#E69F00]/10 hover:bg-[#E69F00]/25 w-100 transition-all duration-200 mt-3"
           onClick={continuePostTrade}
@@ -233,7 +246,11 @@ function Perps() {
                   <div className="flex justify-between">
                     {tradeType === "long" ? (
                       <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
-                        <img src={usdc} alt="eth icon" className="w-[40px] p-2" />
+                        <img
+                          src={usdc}
+                          alt="eth icon"
+                          className="w-[40px] p-2"
+                        />
                         <div className="font-semibold text-xs lg:text-base">
                           USDC
                         </div>
@@ -267,34 +284,49 @@ function Perps() {
               </div>
               <div className="bg-[#272626] rounded-xl h-14 pl-3 pr-2 py-2 lg:p-4 mt-2">
                 <div className="flex flex-col dark:text-white h-full justify-center">
-                  <div className="flex items-center justify-between">
-                    {tradeType === "long" ? (
-                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
-                        <img src={usdc} alt="eth icon" className="w-[40px] p-2" />
-                        <div className="font-semibold text-xs lg:text-base">
-                          USDC
-                        </div>
-                      </div>
-                    ) : (
+                  {tradeType === "long" ? (
+                    <div className="flex items-center justify-between">
                       <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
                         <img src={eth} alt="eth icon" className="w-[40px]" />
                         <div className="font-semibold text-xs lg:text-base">
                           ETH
                         </div>
                       </div>
-                    )}
-                    <div className="">
-                      <input
-                        inputMode="decimal"
-                        data-lpignore="true"
-                        placeholder="0.00"
-                        className="h-full bg-transparent text-right font-semibold dark:placeholder:text-white/25 outline-none text-lg w-[180px]"
-                        type="text"
-                        value={amount * leverage}
-                        onChange={() => {}}
-                      />
+                      <div className="">
+                        <input
+                          inputMode="decimal"
+                          data-lpignore="true"
+                          placeholder="0.00"
+                          className="h-full bg-transparent text-right font-semibold dark:placeholder:text-white/25 outline-none text-lg w-[180px]"
+                          type="text"
+                          value={organizeNumber(
+                            (amount / entryPrice) * leverage
+                          )}
+                          onChange={() => {}}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex items-center justify-between">
+                      <div className="p-1 lg:p-1 lg:pr-4 rounded-lg flex items-center bg-[#1b1b1b]">
+                        <img src={eth} alt="eth icon" className="w-[40px]" />
+                        <div className="font-semibold text-xs lg:text-base">
+                          ETH
+                        </div>
+                      </div>
+                      <div className="">
+                        <input
+                          inputMode="decimal"
+                          data-lpignore="true"
+                          placeholder="0.00"
+                          className="h-full bg-transparent text-right font-semibold dark:placeholder:text-white/25 outline-none text-lg w-[180px]"
+                          type="text"
+                          value={organizeNumber(amount * leverage)}
+                          onChange={() => {}}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -357,7 +389,12 @@ function Perps() {
                         translate="no"
                         className="text-xs text-white/75 mt-0.5"
                       >
-                        <span>{organizeNumber(entryPrice * amount)} USD</span>
+                        <span>
+                          {tradeType === "long"
+                            ? amount
+                            : organizeNumber(entryPrice * amount)}{" "}
+                          USD
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -376,7 +413,12 @@ function Perps() {
                         className="text-xs h-[14px] text-white/75"
                       >
                         <span>
-                          {organizeNumber(entryPrice * amount * leverage)} USD
+                          {tradeType === "long"
+                            ? amount * leverage
+                            : organizeNumber(
+                                entryPrice * amount * leverage
+                              )}{" "}
+                          USD
                         </span>
                       </span>
                     </div>
@@ -422,10 +464,13 @@ function Perps() {
                     Liquidation price
                   </span>
                   <span className="text-xs text-white/50">
-                    ${organizeNumber(entryPrice * (1 - 1 / leverage))}
+                    $
+                    {tradeType === "long"
+                      ? organizeNumber(amount * (leverage - 1))
+                      : organizeNumber(entryPrice * amount * (leverage + 1))}
                   </span>
                 </div>
-                <div className="flex flex-col lg:flex-row justify-between lg:items-center">
+                {/* <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-xs text-white/50">
                     Execution Fee (0.4%)
                   </span>
@@ -442,7 +487,7 @@ function Perps() {
                   <span className="text-xs text-white/50">
                     {organizeNumber(entryPrice * amount * leverage * 0.996)}
                   </span>
-                </div>
+                </div> */}
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-xs text-white/50">
                     Available liquidity
